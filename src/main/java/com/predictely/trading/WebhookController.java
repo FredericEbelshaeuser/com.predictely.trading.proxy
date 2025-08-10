@@ -25,4 +25,20 @@ public class WebhookController {
         forwardingService.forwardPayload(payload);
         return ResponseEntity.ok("Received and forwarded");
     }
+    
+    
+	@PostMapping(value = "/process/wave/up")
+	public String receiveWebhookUptrend(			@RequestParam(name = "password") String password) {
+
+		forwardingService.forwardTrendUp();
+		return "received";
+	}
+	
+	@PostMapping(value= "/process/wave/down")
+	public String receiveWebhookDowntrend(
+			@RequestParam(name = "password") String password) {
+
+		forwardingService.forwardTrendDown();
+		return "received";
+	}
 }

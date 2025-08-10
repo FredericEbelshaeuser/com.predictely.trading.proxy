@@ -10,6 +10,7 @@ public class WebhookPayload {
 	private Double signal_price;
 	private String strategy;
 	private ZonedDateTime timestamp;
+	private String trend;
 
 	public String getAction() {
 		return action;
@@ -58,11 +59,21 @@ public class WebhookPayload {
 	public void setTimestamp(ZonedDateTime timestamp) {
 		this.timestamp = timestamp;
 	}
+	
+	public void setTrend(String trend) {
+		this.trend = trend;
+	}
+	
+	public String getTrend() {
+		return trend;
+	}
 
 	@Override
 	public String toString() {
-		return "WebhookPayload{" + "action='" + action + '\'' + ", symbol='" + symbol + '\'' + ", exchange='" + exchange
-				+ '\'' + ", signal_price=" + signal_price + ", strategy='" + strategy + '\'' + ", timestamp="
-				+ timestamp + '}';
+		return "WebhookPayload [action=" + action + ", symbol=" + symbol + ", exchange=" + exchange + ", signal_price="
+				+ signal_price + ", strategy=" + strategy + ", timestamp=" + timestamp + ", trend=" + trend + "]";
 	}
+	
+
+
 }

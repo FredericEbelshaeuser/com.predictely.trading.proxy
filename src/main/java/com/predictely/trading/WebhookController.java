@@ -1,9 +1,11 @@
 package com.predictely.trading;
 
+import com.predictely.trading.model.OrderblocksPayload;
 import com.predictely.trading.model.WebhookPayload;
 import com.predictely.trading.service.ForwardingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class WebhookController {
 
     private static final Logger logger = LoggerFactory.getLogger(WebhookController.class);
+    private static final String EXPECTED_PASSWORD = "U2pQcv9g2XLevRTWPGTf";
 
     private final ForwardingService forwardingService;
 
@@ -20,25 +23,54 @@ public class WebhookController {
     }
 
     @PostMapping("/process")
-    public ResponseEntity<String> receiveWebhook(@RequestBody WebhookPayload payload) {
+    public ResponseEntity<String> receiveWebhook(@RequestBody WebhookPayload payload, @RequestParam(name = "password") String password) {
+    	
+        if (!EXPECTED_PASSWORD.equals(password)) {
+            logger.warn("Rejected UP request due to invalid password");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid password");
+        }
+    	
         logger.info("Received webhook: {}", payload);
         forwardingService.forwardPayload(payload);
         return ResponseEntity.ok("Received and forwarded");
     }
     
-    
-	@PostMapping(value = "/process/wave/up")
-	public String receiveWebhookUptrend(			@RequestParam(name = "password") String password) {
+    @PostMapping("/process/orderblocks")
+    public ResponseEntity<String> receiveWebhookOrderblock(@RequestBody OrderblocksPayload payload, @RequestParam(name = "password") String password) {
+    	
+        if (!EXPECTED_PASSWORD.equals(password)) {
+            logger.warn("Rejected UP request due to invalid password");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid password");
+        }
+    	
+        logger.info("Received webhook: {}", payload);
+        forwardingService.forwardPayload(payload);
+        return ResponseEntity.ok("Received and forwarded");
+    }
 
-		forwardingService.forwardTrendUp();
-		return "received";
-	}
-	
-	@PostMapping(value= "/process/wave/down")
-	public String receiveWebhookDowntrend(
-			@RequestParam(name = "password") String password) {
+    @PostMapping(value = "/process/wave/up")
+    public ResponseEntity<String> receiveWebhookUptrend(
+            @RequestParam(name = "password") String password) {
 
-		forwardingService.forwardTrendDown();
-		return "received";
-	}
+        if (!EXPECTED_PASSWORD.equals(password)) {
+            logger.warn("Rejected UP request due to invalid password");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid password");
+        }
+
+        forwardingService.forwardTrendUp();
+        return ResponseEntity.ok("received");
+    }
+
+    @PostMapping(value = "/process/wave/down")
+    public ResponseEntity<String> receiveWebhookDowntrend(
+            @RequestParam(name = "password") String password) {
+
+        if (!EXPECTED_PASSWORD.equals(password)) {
+            logger.warn("Rejected DOWN request due to invalid password");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid password");
+        }
+
+        forwardingService.forwardTrendDown();
+        return ResponseEntity.ok("received");
+    }
 }

@@ -73,4 +73,10 @@ public class WebhookController {
         forwardingService.forwardTrendDown();
         return ResponseEntity.ok("received");
     }
+    
+
+    @GetMapping("/ping")
+    public String ping() {
+        return "pong";
+    }
 }

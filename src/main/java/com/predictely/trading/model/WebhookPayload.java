@@ -12,6 +12,7 @@ public class WebhookPayload {
 	private ZonedDateTime timestamp;
 	private String trend;
 	private String signaltype;
+	private String tf;
 
 	public String getAction() {
 		return action;
@@ -76,14 +77,23 @@ public class WebhookPayload {
 	public void setSignaltype(String signaltype) {
 		this.signaltype = signaltype;
 	}
+	
+	public String getTf() {
+		return tf;
+	}
+	
+	public void setTf(String tf) {
+		this.tf = tf;
+	}
 
 	@Override
 	public String toString() {
 		return "WebhookPayload [action=" + action + ", symbol=" + symbol + ", exchange=" + exchange + ", signal_price="
 				+ signal_price + ", strategy=" + strategy + ", timestamp=" + timestamp + ", trend=" + trend
-				+ ", signaltype=" + signaltype + "]";
+				+ ", signaltype=" + signaltype + ", tf=" + tf + "]";
 	}
-	
+
+
 
 
 

@@ -3,13 +3,18 @@ package com.predictely.trading.model;
 public class OrderblocksPayload {
 
 	private String type; // e.g. "sellob", "buyob"
-	private String symbol; // {{ticker}}
-	private String exchange; // {{exchange}}
-	private String interval; // {{interval}}
-	private String time; // {{time}}
-	private double top; // {{plot("sell_top")}} or {{plot("buy_top")}}
-	private double mid; // {{plot("sell_mid")}} or {{plot("buy_mid")}}
-	private double bottom; // {{plot("sell_bot")}} or {{plot("buy_bot")}}
+	private String symbol;
+	private String exchange; 
+	private String interval; 
+	private String time; 
+	private double top; 
+	private double mid; 
+	private double bottom; 
+	private String volume;
+	private double percentage; 
+	private String action;
+	private int construct;
+	
 
 	public OrderblocksPayload() {
 	}
@@ -96,10 +101,47 @@ public class OrderblocksPayload {
 		this.bottom = bottom;
 	}
 
+	public String getVolume() {
+		return volume;
+	}
+
+	public void setVolume(String volume) {
+		this.volume = volume;
+	}
+
+	public double getPercentage() {
+		return percentage;
+	}
+
+	public void setPercentage(double percentage) {
+		this.percentage = percentage;
+	}
+
+	public String getAction() {
+		return action;
+	}
+	
+	public void setAction(String action) {
+		this.action = action;
+	}
+	
+	public int getConstruct() {
+		return construct;
+	}
+	
+	public void setConstruct(int construct) {
+		this.construct = construct;
+	}
+
 	@Override
 	public String toString() {
 		return "OrderblocksPayload [type=" + type + ", symbol=" + symbol + ", exchange=" + exchange + ", interval="
-				+ interval + ", time=" + time + ", top=" + top + ", mid=" + mid + ", bottom=" + bottom + "]";
+				+ interval + ", time=" + time + ", top=" + top + ", mid=" + mid + ", bottom=" + bottom + ", volume="
+				+ volume + ", percentage=" + percentage + ", action=" + action + ", construct=" + construct + "]";
 	}
+
+
+	
+
 
 }

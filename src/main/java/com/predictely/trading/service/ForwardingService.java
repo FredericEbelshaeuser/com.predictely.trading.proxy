@@ -98,4 +98,17 @@ public class ForwardingService {
     public void shutdown() {
         executor.shutdown();
     }
+
+	public void forwardOrderblockUpdate(OrderblocksPayload orderBlock) {
+        final String path = "/webhook/process/orderblocks/update?password=" + webhookPassword;
+        final HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        final HttpEntity<OrderblocksPayload> request = new HttpEntity<>(orderBlock, headers);
+
+        // fire-and-forget fan-out
+        for (String baseUrl : baseUrls) {
+            String url = baseUrl + path;
+            sendRequestAsync(url, request);
+        }		
+	}
 }
